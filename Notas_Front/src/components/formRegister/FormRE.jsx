@@ -1,86 +1,111 @@
 import styles from "./form.module.css";
-
+import { useState } from "react";
+import verify from "./verify";
+import axios from "axios";
 export default function FormRE() {
+  const [seePAS, setPAS] = useState(false);
+  const [form, setform] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+
+  const seePasword = () => {
+    setPAS(!seePAS);
+  };
+  const onChange = (event) => {
+    const property = event.target.name;
+    const value = event.target.value;
+    const newData = { ...form, [property]: value };
+
+    setform(newData);
+    setError(verify(newData, property, error));
+    verify();
+  };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Verifica si hay errores antes de enviar la solicitud
+    if (!Object.values(error).some((errorMsg) => errorMsg)) {
+      try {
+        const url = 'https://notas-api-o9fj.onrender.com/user';
+        const response = await axios.post(url, form);
+        alert(response.data.id);
+      } catch (error) {
+        console.log('Error al realizar la solicitud: ' + error);
+      }
+    } else {
+      alert('Corrige los errores en el formulario antes de enviar.');
+    }
+  };
   return (
     <div className={styles.box_container}>
-        <form className={styles.formContainer}>
-      <div className={styles.inputGroup}>
-        <input
-          type="email"
-          name="floating_email"
-          id="floating_email"
-          className={styles.inputField}
-          placeholder=" "
-          required
-        />
-        <label htmlFor="floating_email" className={styles.label}>
-          Email address
-        </label>
-      </div>
-
-      <div className={styles.inputGroup}>
-        <input
-          type="password"
-          name="floating_password"
-          id="floating_password"
-          className={styles.inputField}
-          placeholder=" "
-          required
-        />
-        <label htmlFor="floating_password" className={styles.label}>
-          Password
-        </label>
-      </div>
-
-      <div className={styles.inputGroup}>
-        <input
-          type="password"
-          name="repeat_password"
-          id="floating_repeat_password"
-          className={styles.inputField}
-          placeholder=" "
-          required
-        />
-        <label htmlFor="floating_repeat_password" className={styles.label}>
-          Confirm password
-        </label>
-      </div>
-
       
+      <form className={styles.formContainer} onSubmit={handleSubmit}>
+      <h2>Crea tu usuario</h2>
         <div className={styles.inputGroup}>
           <input
             type="text"
-            name="floating_last_name"
-            id="floating_last_name"
+            name="name"
+            id="name"
             className={styles.inputField}
             placeholder=" "
             required
+            onChange={onChange}
           />
-          <label htmlFor="floating_last_name" className={styles.label}>
-            Last name
+          <label htmlFor="name" className={styles.label}>
+            Username
           </label>
+          <span>{error.name}</span>
+        </div>
+       
+        
+        <div className={styles.inputGroup}>
+          <input
+            type="text"
+            name="email"
+            id="email"
+            className={styles.inputField}
+            placeholder=" "
+            required
+            onChange={onChange}
+          />
+          <label htmlFor="email" className={styles.label}>
+            Email address
+          </label>
+          <span>{error.email}</span>
         </div>
 
         <div className={styles.inputGroup}>
           <input
-            type="text"
-            name="floating_last_na"
-            id="floating_last_nam"
+            type={seePAS ? "text" : "password"}
+            name="password"
+            id="password"
             className={styles.inputField}
             placeholder=" "
             required
+            onChange={onChange}
           />
-          <label htmlFor="floating_last_nam" className={styles.label}>
-            Last name
+          <label htmlFor="password" className={styles.label}>
+            Password
           </label>
-        </div>
-    
+          <span>{error.password}</span>
+          <div className={styles.button_see}>
+            <input type="checkbox" onClick={seePasword} />
+            <p>Mostrar contraseña</p>
+          </div>
 
-      <button type="submit" className={styles.button}>
-        Submit
-      </button>
-    </form>
+        </div>
+
+        <button type="submit" className={styles.button}>
+          Submit
+        </button>
+      </form>
     </div>
-    
   );
 }

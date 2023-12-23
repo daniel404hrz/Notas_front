@@ -3,32 +3,45 @@
     display: flex;
     justify-content: center;
     align-items:center ;
-    background-color: #333;
+    background-color: white;
+}
+label {
+  user-select: none;
 }
 
 .formContainer {
     height: fit-content;
    width: 200px;
    padding: 3%;
+   padding-top: 0;
     margin-bottom: 90px;
-    -webkit-box-shadow: 0px 0px 4px 3px rgb(255, 255, 255);
--moz-box-shadow: 0px 0px 4px 3px rgb(255, 255, 255);
-box-shadow: 0px 0px 4px 3px rgb(255, 255, 255);
+    -webkit-box-shadow: 0px 0px 4px 3px black;
+-moz-box-shadow: 0px 0px 4px 3px black;
+box-shadow: 0px 0px 4px 3px black;
 border-radius: 8px;
 
   }
+  .formContainer h2{
+    text-align: center;
+    padding-top: 10px;
+  }
   
   .inputGroup {
+    
     position: relative;
     margin-bottom: 1.25rem;
   }
+  .inputGroup span{
+    margin-top: 20px;
+    color: red;
+  }
   
   .inputField {
-    
+    color: black;
     padding: 0.625rem 0;
     width: 100%;
-    font-size: 0.875rem;
-    color: #333;
+    font-size: 1rem;
+    margin-bottom: 5px;
     background: transparent;
     border: 0;
     border-bottom: 0.125rem solid #ccc;
@@ -39,12 +52,13 @@ border-radius: 8px;
   
   .inputField:focus {
     border-color: #3498db;
+    outline: none;
   }
   
   .label {
     position: absolute;
     left: 0%;
-    font-size: 0.75rem;
+    font-size: 1rem;
     color: #888;
     transition: transform 0.3s ease, opacity 0.3s ease;
     transform-origin: 0 100%;
@@ -72,3 +86,23 @@ border-radius: 8px;
   .button:hover {
     background-color: #2980b9;
   }
+  .button_see{
+    display: flex;
+    color: black;
+    gap: 5px;
+    font-size: 0.9rem;
+    font-family: Arial, Helvetica, sans-serif;
+    
+  }
+  .button_see input {
+    width: 16px;
+   
+  }
+  
+  
+  .inputField:-webkit-autofill {
+    font-size: inherit; /* Mantén el tamaño de la fuente original */
+    color: inherit; /* Mantén el color de la fuente original */
+    /* Otros estilos que desees mantener o personalizar */
+  }
+
